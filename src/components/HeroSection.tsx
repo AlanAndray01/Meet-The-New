@@ -27,12 +27,12 @@ export default function HeroSection() {
       
       if (width < 480) {
         // Mobile: small phones
-        fov = 45;
-        zPos = 35;
+        fov = 40;
+        zPos = 25;
       } else if (width < 768) {
         // Mobile: larger phones
         fov = 35;
-        zPos = 30;
+        zPos = 25;
       } else if (width < 1024) {
         // Tablet
         fov = 28;
@@ -62,6 +62,7 @@ export default function HeroSection() {
       pmremGenerator.compileEquirectangularShader();
       scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
+      
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
@@ -75,10 +76,6 @@ export default function HeroSection() {
 const gui = new dat.GUI({ closed: true });
 gui.close(); // Double ensure it's closed by default
 
-// Hide GUI on mobile devices
-if (window.innerWidth < 768) {
-  gui.domElement.style.display = 'none';
-}
 const params = {
   color: '#1701ea',
         emissive: '#070505',
@@ -123,6 +120,35 @@ const params = {
       });
 
       scene.add(group);
+
+      const handleResize = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Update Camera
+        const camSettings = getResponsiveCamera();
+        camera.fov = camSettings.fov;
+        camera.position.z = camSettings.zPos;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+
+        // Update Group Scale for Mobile
+        if (width < 480) {
+          group.scale.set(0.6, 0.6, 0.6);
+        } else if (width < 768) {
+          group.scale.set(0.85, 0.85, 0.85);
+        } else if (width < 1024) {
+          group.scale.set(0.95, 0.95, 0.95);
+        } else {
+          group.scale.set(1, 1, 1);
+        }
+
+        renderer.setSize(width, height);
+      };
+
+      // Call first time
+      handleResize();
+      window.addEventListener('resize', handleResize);
 
       // Enhance soft shadows and warm light
       const ambientLight = new THREE.AmbientLight(0xffffff, params.ambientLight);
@@ -297,33 +323,6 @@ const params = {
 
       window.addEventListener('mousemove', onMouseMove);
       animate();
-
-      const handleResize = () => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        // Update camera aspect ratio
-        camera.aspect = width / height;
-        
-        // Adjust camera FOV and position based on new window size
-        const { fov, zPos } = getResponsiveCamera();
-        camera.fov = fov;
-        camera.position.z = zPos;
-        camera.updateProjectionMatrix();
-        
-        // Update renderer size
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        
-        // Toggle GUI visibility on mobile
-        if (width < 768) {
-          gui.domElement.style.display = 'none';
-        } else {
-          gui.domElement.style.display = 'block';
-        }
-      };
-
-      window.addEventListener('resize', handleResize);
 
       return () => {
         window.removeEventListener('mousemove', onMouseMove);

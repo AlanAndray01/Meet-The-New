@@ -254,21 +254,18 @@ button {
 
 .banner-inner .bottom-desc .right-desc h1 {
   margin-bottom: 20px;
-  padding-right: 60px;
-  position: relative;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.banner-inner .bottom-desc .right-desc h1::after {
+.banner-inner .bottom-desc .right-desc h1::before {
   content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 20%;
+  display: inline-block;
+  width: 60px;
   height: 6px;
   background: var(--black-color);
-  transform: translate(-30%, 100%);
-  -webkit-transform: translate(-30%, 100%);
+  margin-right: 20px;
 }
 
 .banner-inner .bottom-desc .right-desc .desc-inner {
@@ -318,11 +315,8 @@ button {
   .banner-inner {
     min-height: calc(100dvh - 85px);
   }
-  .banner-inner .bottom-desc .right-desc h1 {
-    padding-right: 40px;
-  }
-  .banner-inner .bottom-desc .right-desc h1::after {
-    width: 16%;
+  .banner-inner .bottom-desc .right-desc h1::before {
+    width: 50px;
   }
   .banner-inner .bottom-desc .right-desc .desc-inner {
     gap: 20px;
@@ -361,10 +355,12 @@ button {
     padding-top: 80px;
   }
   .banner-inner .bottom-desc .right-desc h1 {
-    padding-right: 30px;
+    font-size: 32px;
   }
-  .banner-inner .bottom-desc .right-desc h1::after {
-    width: 12%;
+  .banner-inner .bottom-desc .right-desc h1::before {
+    width: 40px;
+    height: 4px;
+    margin-right: 15px;
   }
   .banner-inner .bottom-desc .right-desc .desc-inner {
     gap: 16px;
@@ -382,6 +378,10 @@ button {
     font-size: 14px;
   }
 
+  .header-inner {
+    margin-top: 30px;
+  }
+
   .header-inner .navbar-brand {
     font-size: 28px;
   }
@@ -397,10 +397,12 @@ button {
     padding-top: 60px;
   }
   .banner-inner .bottom-desc .right-desc h1 {
-    padding-right: 30px;
+    font-size: 32px;
   }
-  .banner-inner .bottom-desc .right-desc h1::after {
-    width: 10%;
+  .banner-inner .bottom-desc .right-desc h1::before {
+    width: 30px;
+    height: 4px;
+    margin-right: 15px;
   }
   .banner-inner .bottom-desc .right-desc .desc-inner {
     gap: 12px;
@@ -424,6 +426,7 @@ button {
 
   .header-inner {
     padding: 14px 16px;
+    margin-top: 30px;
   }
 
   .header-inner .navbar-brand {
@@ -466,12 +469,12 @@ button {
   }
 
   .banner-inner .bottom-desc .right-desc h1 {
-    padding-right: 20px;
     font-size: 32px;
   }
-  .banner-inner .bottom-desc .right-desc h1::after {
-    width: 14%;
+  .banner-inner .bottom-desc .right-desc h1::before {
+    width: 20px;
     height: 4px;
+    margin-right: 10px;
   }
   .banner-inner .bottom-desc .right-desc .desc-inner {
     gap: 10px;
@@ -505,6 +508,7 @@ button {
 
   .header-inner {
     padding: 12px 12px;
+    margin-top: 30px;
   }
 
   .header-inner .navbar-brand {
@@ -569,13 +573,13 @@ button {
   }
 
   .banner-inner .bottom-desc .right-desc h1 {
-    padding-right: 16px;
     font-size: 24px;
     margin-bottom: 10px;
   }
-  .banner-inner .bottom-desc .right-desc h1::after {
-    width: 12%;
+  .banner-inner .bottom-desc .right-desc h1::before {
+    width: 20px;
     height: 3px;
+    margin-right: 10px;
   }
   .banner-inner .bottom-desc .right-desc .desc-inner {
     gap: 8px;
@@ -590,5 +594,22 @@ button {
   }
   .banner-inner .bottom-desc .right-desc .desc-inner ul li i {
     font-size: 12px;
+  }
+}
+
+/* GUI overrides for mobile and tablet */
+@media (max-width: 991px) {
+  .dg.ac {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    z-index: 10000 !important;
+  }
+  .dg.main {
+    margin: 0 !important;
   }
 }

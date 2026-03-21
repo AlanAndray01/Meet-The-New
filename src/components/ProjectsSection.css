@@ -1,0 +1,454 @@
+/* ═══════════════════════════════════════════════════════
+   PROJECTS SECTION — matching hero & about palette
+   Orange/brown balls · white bg · Helvetica Neue
+   ═══════════════════════════════════════════════════════ */
+
+.projects-section {
+  position: relative;
+  min-height: 100vh; /* Same as about section */
+  width: 100%;
+  background: #ffffff;
+  overflow: hidden;
+  padding: 120px 60px;
+  display: flex;
+  align-items: center;
+}
+
+/* ─── TRAVELLING BALLS (position:fixed) ────────────── */
+.proj-traveller,
+.proj-split-ball {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  will-change: transform, opacity, left, top;
+
+  /* Same glossy material as hero/about balls */
+  background:
+    radial-gradient(ellipse 55% 38% at 32% 28%,
+      rgba(255,255,255,0.62) 0%, transparent 52%),
+    radial-gradient(ellipse 90% 90% at 50% 50%,
+      var(--bubble-primary-color) 0%, 
+      var(--bubble-primary-color) 40%, 
+      var(--bubble-emissive-color) 100%);
+  box-shadow:
+    0 8px 30px  rgba(var(--bubble-shadow-rgb), 0.45),
+    0 20px 60px rgba(var(--bubble-shadow-rgb), 0.25),
+    inset 0 -2px 20px rgba(0, 0, 20, 0.28),
+    inset 0  2px 12px rgba(255,255,255,0.18);
+}
+
+.proj-split-ball {
+  width: 200px;
+  height: 200px;
+}
+
+/* Specular highlight on travelling balls */
+.proj-traveller::after,
+.proj-split-ball::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  width: 42%;
+  height: 30%;
+  background: radial-gradient(ellipse,
+    rgba(255,255,255,0.78) 0%,
+    rgba(255,255,255,0)    70%);
+  border-radius: 50%;
+  transform: rotate(-30deg);
+  pointer-events: none;
+}
+
+/* ─── LAYOUT ────────────────────────────────────────── */
+.projects-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1550px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+}
+
+/* ─── HEADER ────────────────────────────────────────── */
+.projects-header {
+  text-align: center;
+  margin-bottom: 100px;
+  opacity: 0; /* Hidden initially, revealed by animation */
+}
+
+.projects-tag h5 {
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #111;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.projects-tag h6 {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #888;
+  margin: 0;
+}
+
+.projects-tag-line {
+  width: 28px;
+  height: 2px;
+  background: #111;
+  margin: 12px auto 0;
+}
+
+.projects-title {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  color: #0d0d0d;
+  text-transform: uppercase;
+  margin: 24px 0 0;
+}
+
+/* ─── CARDS CONTAINER (ONE ROW) ─────────────────────── */
+.projects-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Mobile: horizontal scroll */
+@media (max-width: 900px) {
+  .projects-cards {
+    display: flex;
+    grid-template-columns: unset;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    gap: 24px;
+    padding: 0 24px 20px 24px;
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0 -24px;
+  }
+
+  .projects-cards::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-cards {
+    gap: 20px;
+    padding: 0 20px 20px 20px;
+    margin: 0 -20px;
+  }
+}
+
+/* ─── PROJECT CARD ──────────────────────────────────── */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0; /* Hidden initially */
+  cursor: pointer;
+  padding: 30px 20px;
+  border-radius: 12px;
+  transition: all 0.4s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 
+    0 10px 20px rgba(var(--bubble-shadow-rgb), 0.4),
+    0 10px 20px rgba(var(--bubble-shadow-rgb), 0.25);
+}
+
+/* Mobile: cards as flex items with scroll snap */
+@media (max-width: 900px) {
+  .project-card {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card {
+    min-width: 240px;
+  }
+}
+
+/* Ball anchor - where the split ball lands */
+.project-ball-anchor {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 800px;
+  border-radius: 50%;
+}
+
+/* Project ball (DOM positioned, visible when travellers fade out) */
+.project-ball {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0; /* Hidden initially, revealed by animation */
+
+  /* Same material as hero/about */
+  background:
+    radial-gradient(ellipse 55% 38% at 32% 28%,
+      rgba(255,255,255,0.62) 0%, transparent 52%),
+    radial-gradient(ellipse 90% 90% at 50% 50%,
+      var(--bubble-primary-color) 0%, 
+      var(--bubble-primary-color) 40%, 
+      var(--bubble-emissive-color) 100%);
+  box-shadow:
+    0 12px 40px  rgba(var(--bubble-shadow-rgb), 0.35),
+    0 30px 80px rgba(var(--bubble-shadow-rgb), 0.18),
+    inset 0 -2px 30px rgba(0,0,20,0.28),
+    inset 0  2px 16px rgba(255,255,255,0.16);
+
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: projectBallFloat 5s ease-in-out infinite;
+}
+
+/* Project image inside ball - SAME AS ABOUT SECTION */
+.project-ball img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 1; /* Always visible, not 0 like about */
+  z-index: 1;
+  filter: brightness(0.95) contrast(1.08);
+}
+
+.project-ball:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow:
+    0 20px 50px  rgba(var(--bubble-shadow-rgb), 0.45),
+    0 40px 100px rgba(var(--bubble-shadow-rgb), 0.25),
+    inset 0 -2px 30px rgba(0,0,20,0.32),
+    inset 0  2px 20px rgba(255,255,255,0.2);
+}
+
+@keyframes projectBallFloat {
+  0%,  100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* ─── PROJECT INFO ──────────────────────────────────── */
+.project-info {
+  text-align: center;
+  max-width: 200px;
+  opacity: 0; /* Hidden initially, revealed by animation */
+}
+
+@media (max-width: 900px) {
+  .project-info {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-info {
+    max-width: 240px;
+  }
+}
+
+.project-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0d0d0d;
+  margin: 0 0 8px;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
+
+.project-description {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #666;
+  margin: 0 0 16px;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.tech-tag {
+  padding: 5px 12px;
+  border: 1px solid var(--bubble-primary-color);
+  border-radius: 2px;
+  font-family: "Oswald", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bubble-primary-color);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .tech-tag {
+  background: var(--bubble-primary-color);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(var(--bubble-shadow-rgb), 0.3);
+}
+
+.tech-tag:hover {
+  transform: scale(1.05);
+}
+
+/* ─── SIDE TEXT & INDEX ─────────────────────────────── */
+.scroll-hint-mobile {
+  display: none;
+  font-family: "Oswald", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #999;
+  text-align: center;
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeInHint 1s ease 2s forwards;
+}
+
+@keyframes fadeInHint {
+  to { opacity: 0.7; }
+}
+
+@media (max-width: 900px) {
+  .scroll-hint-mobile {
+    display: block;
+  }
+}
+
+.projects-side-text {
+  position: absolute;
+  right: -30px;
+  top: 60%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #bbb;
+  white-space: nowrap;
+  z-index: 3;
+  user-select: none;
+}
+
+.projects-index {
+  position: absolute;
+  bottom: 8px;
+  right: 56px;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 9rem);
+  font-weight: 900;
+  color: rgba(0,0,0,1);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  user-select: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.projects-index::before {
+  content: '';
+  display: inline-block;
+  width: 60px;
+  height: 6px;
+  background: rgba(0,0,0,1);
+  border-radius: 50px;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .projects-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .projects-section {
+    padding: 80px 24px;
+  }
+
+  .project-ball-anchor,
+  .project-ball {
+    width: 180px;
+    height: 180px;
+  }
+
+  .proj-split-ball {
+    width: 180px;
+    height: 180px;
+  }
+
+  .projects-side-text { display: none; }
+  .projects-index { right: 20px; }
+}
+
+@media (max-width: 480px) {
+  .projects-section {
+    padding: 60px 20px;
+  }
+
+  .project-ball-anchor,
+  .project-ball {
+    width: 140px;
+    height: 140px;
+  }
+
+  .proj-split-ball {
+    width: 140px;
+    height: 140px;
+  }
+
+  .projects-header {
+    margin-bottom: 60px;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .project-description {
+    font-size: 12px;
+  }
+}

@@ -38,3 +38,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Text Selection Styling (Dynamic Ball Color) ─── */
+::selection {
+  background-color: var(--bubble-primary-color, #ca7000);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: var(--bubble-primary-color, #ca7000);
+  color: #ffffff;
+}
+
+/* Text selection for input and textarea */
+input::selection,
+textarea::selection {
+  background-color: var(--bubble-primary-color, #ca7000);
+  color: #ffffff;
+}

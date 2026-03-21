@@ -101,13 +101,13 @@ gui.close(); // Double ensure it's closed by default
       };
 
 const params = {
-  color: '#ca7000',
-        emissive: '#070505',
-        roughness: 0.35,
-        metalness: 0.148,
-        clearcoat: 0.31,
-        ambientLight: 0.8,
-        directionalLight: 1.07
+  color: '#91c8e4',
+        emissive: '#000000',
+        roughness: 1,
+        metalness: 1,
+        clearcoat: 0.3,
+        ambientLight: 0.64,
+        directionalLight: 1.1
       };
 
       const material = new THREE.MeshPhysicalMaterial({

@@ -196,8 +196,13 @@ export default function AboutSection() {
         const arcOffset = arcHeight * 4 * p * (1 - p); // parabola peak at p=0.5
         const y = yLinear - arcOffset;
 
-        // Opacity: fade in fast at start, stay solid
-        const opacity = Math.min(1, p * 5);
+        // Opacity: fade in fast at start, stay solid until 98%, then instant hide
+        let opacity;
+        if (p < 0.98) {
+          opacity = Math.min(1, p * 5);
+        } else {
+          opacity = 0; // Instant disappear at destination
+        }
 
         // Apply all at once
         gsap.set(traveller, {
@@ -238,37 +243,28 @@ export default function AboutSection() {
 
     // ── Landing sequence — called once traveller reaches destination ──────
     function triggerLanding() {
-      const tl = gsap.timeline();
-
-      // Hide traveller
-      tl.to(traveller, {
-        opacity: 0,
-        duration: 0.35,
-        ease: 'power2.in',
-      });
-
-      // Pop in the landed bubble
-      tl.to(landed, {
+      // Instantly show the landed bubble (no animation)
+      gsap.set(landed, {
         opacity: 1,
-        scale:   1,
-        duration: 0.55,
-        ease: 'back.out(1.5)',
-        onComplete() {
-          landed.classList.add('is-floating');
-          document.querySelectorAll<HTMLElement>('.bubble-halo')
-            .forEach(h => h.classList.add('is-visible'));
-          // Reveal profile image with slight delay
-          gsap.delayedCall(0.2, () => landed.classList.add('show-image'));
-        },
-      }, '-=0.1');
+        scale: 1,
+      });
+      
+      landed.classList.add('is-floating');
+      document.querySelectorAll<HTMLElement>('.bubble-halo')
+        .forEach(h => h.classList.add('is-visible'));
+      
+      // Show profile image immediately
+      landed.classList.add('show-image');
 
-      // Slide in text column
+      // Animate text column
+      const tl = gsap.timeline();
+      
       tl.to(textCol, {
         opacity:  1,
         x:        0,
         duration: 0.85,
         ease:    'power3.out',
-      }, '-=0.35');
+      });
 
       // Stagger text children
       tl.fromTo(
@@ -301,17 +297,9 @@ export default function AboutSection() {
       );
     }
 
-    // ── Parallax float on landed bubble while scrolling through section ───
-    gsap.to(anchor, {
-      y: -55,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start:   'top bottom',
-        end:     'bottom top',
-        scrub:   true,
-      },
-    });
+    // ── REMOVED: Parallax movement that pushed bubble down ────────────────
+    // The bubble now stays locked in position after landing
+    // No scroll-based movement applied to the anchor
 
     // ── Magnetic hover ────────────────────────────────────────────────────
     const onMouseMove = (e: MouseEvent) => {
@@ -439,7 +427,7 @@ export default function AboutSection() {
         </span>
 
         {/* Hero-style large index number */}
-        <span className="about-index" aria-hidden="true">— 02</span>
+        <span className="about-index" aria-hidden="true"> 02</span>
       </section>
     </>
   );

@@ -109,7 +109,7 @@ export const qualityPresets: Record<DeviceTier, QualityPreset> = {
   },
 
   HIGH: {
-    pixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+    pixelRatio: typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 2,
     antialias: true,
     shadowsEnabled: true,
     shadowMapType: 'PCFSoftShadowMap',

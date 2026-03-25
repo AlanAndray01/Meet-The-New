@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Oswald } from "next/font/google";
+import BackgroundAudio from "@/components/BackgroundAudio";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +11,12 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
   display: "swap",
 });
@@ -29,10 +36,6 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Preload Oswald font for Hero section fast rendering */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" as="style" />
         {/* Font Awesome icons */}
         <link 
           rel="stylesheet" 
@@ -197,8 +200,9 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
       >
+        <BackgroundAudio />
         {children}
       </body>
     </html>

@@ -48,12 +48,6 @@ const SKILLS = [
   'GSAP',
 ];
 
-const STATS = [
-  { number: '3+',  label: 'Years Exp.' },
-  { number: '40+', label: 'Projects'   },
-  { number: '12+', label: 'Clients'    },
-];
-
 // ─── Helper: get a point inside the hero canvas (where the balls cluster) ──
 function getHeroSpawnPoint(): { x: number; y: number } {
   const canvas = document.querySelector<HTMLCanvasElement>('#webgl');
@@ -367,7 +361,7 @@ export default function AboutSection() {
               <div className="bubble-landed" ref={landedRef}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/profile.webp"
+                  src="/profile.jpeg"
                   alt="Profile photo"
                   draggable={false}
                   loading="lazy"
@@ -386,8 +380,8 @@ export default function AboutSection() {
             </div>
 
             <h2 className="about-name">
-              John
-              <span className="about-name-accent">Doe</span>
+              Arslan
+              <span className="about-name-accent">Shah</span>
             </h2>
 
             <p className="about-role">
@@ -406,15 +400,6 @@ export default function AboutSection() {
               {SKILLS.map(skill => (
                 <div className="skill-pill" key={skill} role="listitem">
                   {skill}
-                </div>
-              ))}
-            </div>
-
-            <div className="about-stats">
-              {STATS.map(s => (
-                <div key={s.label}>
-                  <span className="about-stat-number">{s.number}</span>
-                  <span className="about-stat-label">{s.label}</span>
                 </div>
               ))}
             </div>

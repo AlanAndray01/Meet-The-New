@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import gsap from 'gsap';
 import { getDeviceConfig } from '@/utils/deviceConfig';
 import { getQualityPreset } from '@/utils/qualityPresets';
 import './HeroSection.css';
 
 export default function HeroSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (initialized.current) return;
@@ -127,30 +129,28 @@ gui.close(); // Double ensure it's closed by default
       const rgb = hexToRgb(params.color);
       root.style.setProperty('--bubble-shadow-rgb', rgb);
       root.style.setProperty('--bubble-roughness', String(params.roughness));
-      root.style.setProperty('--bubble-metalness', String(params.metalness));
-      root.style.setProperty('--bubble-clearcoat', String(params.clearcoat));
 
       // Synchronize Contact section
       root.style.setProperty('--contact-primary-color', params.color);
       root.style.setProperty('--contact-shadow-rgb', rgb);
     };
 
-const params = {
-  color: '#91c8e4',
-      emissive: '#000000',
-      roughness: 1,
-      metalness: 1,
-      clearcoat: 0.3,
-      ambientLight: ambientLightIntensity,
-      directionalLight: directionalLightIntensity
-    };
+      const params = {
+        color: '#4DD0E1',
+        emissive: '#000000',
+        roughness: 1,
+        metalness: 1,
+        clearcoat: 0.3,
+        ambientLight: ambientLightIntensity,
+        directionalLight: directionalLightIntensity
+      };
 
-    const qualityGuiParams = {
-      openQualitySettings: () => {
-        window.dispatchEvent(new CustomEvent('open-quality-settings'));
-      }
-    };
-    gui.add(qualityGuiParams, 'openQualitySettings').name('Change Quality...');
+      const qualityGuiParams = {
+        openQualitySettings: () => {
+          window.dispatchEvent(new CustomEvent('open-quality-settings'));
+        }
+      };
+      gui.add(qualityGuiParams, 'openQualitySettings').name('Change Quality...');
 
     // Select material based on quality tier
     let material: THREE.Material;
@@ -459,25 +459,68 @@ const params = {
         <div className="circle"></div>
         <div className="circle-follow"></div>
       </div>
-      <div className="hero-section-container">
+      <div className="hero-section-container" ref={containerRef}>
 
         <header className="hide-text">
           <div className="header-inner">
             <a href="#" className="navbar-brand">Creativity</a>
-            <nav>
+            <nav className="desktop-nav">
               <ul>
-                <li><a href="#">octane</a></li>
-                <li><a href="#">cinema 4d</a></li>
-                <li><a href="#">dynamics</a></li>
-                <li><a href="#">Collisions</a></li>
-                <li><a href="#">simulations</a></li>
+                <li><a href="#about">Profile</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#3dmodal">3D Modal</a></li>
+                <li><a href="#contact">Contact Me</a></li>
+                <li>
+                  <a 
+                    href="/Syed Arslan Shah CV.pdf" 
+                    className="cv-btn" 
+                    download="Syed Arslan Shah.pdf" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    My CV
+                  </a>
+                </li>
               </ul>
             </nav>
-            <button className="ham-btn" aria-label="Toggle Navigation Menu">
-              <i className="fa-solid fa-bars"></i>
-            </button>
+            <div 
+              className="ham-btn" 
+              onClick={() => setIsMenuOpen(true)}
+              style={{ display: 'none', cursor: 'pointer', flexDirection: 'column', justifyContent: 'space-between', height: '42px', padding: '10px 0' }}
+            >
+              <div style={{ width: '22px', height: '2px', background: '#000' }}></div>
+              <div style={{ width: '22px', height: '2px', background: '#000' }}></div>
+              <div style={{ width: '22px', height: '2px', background: '#000' }}></div>
+            </div>
           </div>
         </header>
+
+        {/* Mobile Menu Overlay */}
+        <div className={`mobile-menu-overlay ${isMenuOpen ? 'open' : ''}`}>
+          <div className="close-btn" onClick={() => setIsMenuOpen(false)}>
+            &times;
+          </div>
+          <nav className="mobile-nav">
+            <ul>
+              <li><a href="#about" onClick={() => setIsMenuOpen(false)}>Profile</a></li>
+              <li><a href="#projects" onClick={() => setIsMenuOpen(false)}>Projects</a></li>
+              <li><a href="#3dmodal" onClick={() => setIsMenuOpen(false)}>3D Modal</a></li>
+              <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact Me</a></li>
+              <li>
+                <a 
+                  href="/Syed Arslan Shah CV.pdf" 
+                  className="cv-btn" 
+                  download="Syed Arslan Shah.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My CV
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
         <h1 className="main-txt">Creativity</h1>
 
@@ -503,11 +546,11 @@ const params = {
                 <div className="h1">01</div>
                 <div className="desc-inner">
                   <span>Social Links</span>
-                  <ul>
-                    <li><a href="#" aria-label="Twitter"><i className="fa-brands fa-x-twitter"></i></a></li>
-                    <li><a href="#" aria-label="Facebook"><i className="fa-brands fa-facebook-f"></i></a></li>
+                  <ul className="social-links">
+                    <li><a href="#" aria-label="Discord"><i className="fa-brands fa-discord"></i></a></li>
+                    <li><a href="#" aria-label="LinkedIn"><i className="fa-brands fa-linkedin-in"></i></a></li>
+                    <li><a href="#" aria-label="WhatsApp"><i className="fa-brands fa-whatsapp"></i></a></li>
                     <li><a href="#" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" aria-label="YouTube"><i className="fa-brands fa-youtube"></i></a></li>
                   </ul>
                 </div>
               </div>

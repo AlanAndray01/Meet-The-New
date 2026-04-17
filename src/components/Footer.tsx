@@ -45,7 +45,7 @@ export default function Footer() {
       </div>
       
       <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} Meet-The-New. All rights reserved.
+        &copy; {new Date().getFullYear()} Creativity. All rights reserved.
       </div>
     </footer>
   );

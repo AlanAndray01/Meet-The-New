@@ -148,6 +148,7 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
+  position: relative;
 }
 
 .header-inner .navbar-brand {
@@ -155,14 +156,22 @@ button {
   font-weight: 900;
   letter-spacing: -1px;
   text-transform: uppercase;
+  line-height: 1;
+}
+
+.header-inner .ham-btn {
+  display: flex;
+  align-items: center;
+  height: 42px;
 }
 
 .header-inner nav ul {
   display: flex;
   display: -webkit-flex;
-  gap: 120px;
+  gap: 48px;
   align-items: center;
   -webkit-align-items: center;
+  margin: 0 auto;
 }
 
 .header-inner nav ul a {
@@ -187,8 +196,130 @@ button {
   width: 100%;
 }
 
+.header-inner nav ul a.cv-btn {
+  background-color: #000;
+  color: #fff;
+  border-radius: 50px;
+  padding: 10px 48px;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.header-inner nav ul a.cv-btn::after {
+  display: none;
+}
+
+.header-inner nav ul a.cv-btn:hover {
+  background-color: var(--bubble-primary-color, #ca7000);
+  box-shadow: 0 4px 12px rgba(var(--bubble-shadow-rgb, 202, 112, 0), 0.3);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 50vh;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-menu-overlay .close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 40px;
+  cursor: pointer;
+  color: #000;
+  line-height: 1;
+}
+
+.mobile-menu-overlay nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  list-style: none;
+  padding: 0 20px;
+}
+
+.mobile-menu-overlay nav ul li {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-menu-overlay nav ul a {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  text-transform: uppercase;
+  width: 100%;
+  max-width: 220px;
+  text-align: center;
+  background-color: #fff;
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay nav ul a.cv-btn {
+  background-color: #000;
+  color: #fff;
+  border-radius: 50px;
+  padding: 12px 0;
+  text-align: center;
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  margin: 10px auto 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-menu-overlay nav ul a.cv-btn:hover,
+.mobile-menu-overlay nav ul a.cv-btn:active {
+  background-color: var(--bubble-primary-color, #ca7000);
+}
+
 .header-inner .ham-btn img {
   width: 40px;
+}
+
+@media (min-width: 1025px) {
+  .header-inner {
+    justify-content: center;
+  }
+  .header-inner .navbar-brand {
+    position: absolute;
+    left: 20px;
+  }
 }
 
 .rotated-text {
@@ -306,6 +437,29 @@ button {
   font-size: 16px;
 }
 
+.right-desc .desc-inner ul.social-links {
+  display: flex;
+  gap: 15px;
+}
+.right-desc .desc-inner ul.social-links li a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--black-color);
+  border: none;
+  transition: all 0.3s ease;
+  font-size: 8px; /* scale icon inside */
+}
+.right-desc .desc-inner ul.social-links li a:hover {
+  background: var(--bubble-primary-color, #ca7000);
+  color: var(--white-color);
+  transform: translateY(-2px);
+}
+
 @media (min-width: 1200px) and (max-width: 1499px) {
   h1, .hero-section-container .h1 {
     font-size: 140px;
@@ -318,7 +472,7 @@ button {
     font-size: 38px;
   }
   .header-inner nav ul {
-    gap: 100px;
+    gap: 40px;
   }
   .header-inner .ham-btn img {
     width: 32px;
@@ -356,7 +510,7 @@ button {
     font-size: 32px;
   }
   .header-inner nav ul {
-    gap: 40px;
+    gap: 32px;
   }
   .header-inner .ham-btn img {
     width: 28px;
@@ -442,15 +596,19 @@ button {
   }
 
   .header-inner .navbar-brand {
-    font-size: 24px;
+    font-size: 32px;
   }
-  .header-inner nav ul {
+  .header-inner nav.desktop-nav {
     gap: 16px;
     display: none;
   }
   .header-inner .ham-btn {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;
+    height: 32px;
+    padding: 4px 0;
   }
   .header-inner .ham-btn i {
     font-size: 20px;
@@ -524,15 +682,19 @@ button {
   }
 
   .header-inner .navbar-brand {
-    font-size: 18px;
+    font-size: 26px;
   }
-  .header-inner nav ul {
+  .header-inner nav.desktop-nav {
     gap: 16px;
     display: none;
   }
   .header-inner .ham-btn {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;
+    height: 26px;
+    padding: 2px 0;
   }
   .header-inner .ham-btn i {
     font-size: 18px;

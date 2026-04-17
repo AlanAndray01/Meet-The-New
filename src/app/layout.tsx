@@ -21,7 +21,7 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  title: "Festivity - Portfolio",
+  title: "Creativity - Portfolio",
   description: "3D Dynamic Collisions Portfolio",
 };
 
